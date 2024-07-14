@@ -81,8 +81,7 @@
       "tag": "select",
       "outbounds": [
         "auto",
-        "National § 0",
-        "WoW § 1"
+        "jxhskb-vpnjantit.com § 0"
       ],
       "default": "auto"
     },
@@ -90,25 +89,109 @@
       "type": "urltest",
       "tag": "auto",
       "outbounds": [
-        "National § 0",
-        "WoW § 1"
+        "jxhskb-vpnjantit.com § 0"
       ],
       "url": "http://connectivitycheck.gstatic.com/generate_204",
       "interval": "10m0s",
       "idle_timeout": "1h40m0s"
     },
     {
-      "type": "wireguard",
-      "tag": "National § 0",
-      "local_address": [
-        "172.16.0.2/24",
-        "2606:4700:110:86da:4164:f932:be78:559e/128"
-      ],
-      "private_key": "YJI333tNGuwkps9ENsFjuB7XUhh2LyzCfyv1gtXmUXI=",
-      "server": "188.114.98.142",
-      "server_port": 1387,
-      "peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-      "reserved": "cfug",
+      "type": "vmess",
+      "tag": "jxhskb-vpnjantit.com § 0",
+      "server": "195.123.243.21",
+      "server_port": 10000,
+      "uuid": "e77f2c18-41f4-11ef-b606-52ac0064f50a",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "ws",
+        "path": "/vpnjantit",
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      }
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "direct",
+      "tag": "direct-fragment",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "1-500",
+        "sleep": "0-500"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "bypass"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "rule_set": [
+          "geoip-ir",
+          "geosite-ir"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "inbound": "dns-in",
+        "outbound": "dns-out"
+      },
+      {
+        "port": 53,
+        "outbound": "dns-out"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "select"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/country/geoip-ir.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/country/geosite-ir.srs",
+        "update_interval": "120h0m0s"
+      }
+    ],
+    "final": "select",
+    "auto_detect_interface": true,
+    "override_android_vpn": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "clash.db"
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:6756",
+      "secret": "LRZy7hjS37PUXO6T"
+    }
+  }
+}
       "mtu": 1330,
       "fake_packets": "8-15",
       "fake_packets_size": "40-100",
